@@ -1,0 +1,37 @@
+import React, { Component } from "react";
+
+class About extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      data: []
+    };
+  }
+
+  componentDidMount() {
+    this.population();
+  }
+
+  population = () => {
+    fetch("https://www.boredapi.com/api/activity", {
+      method: "GET",
+      headers: {
+        Accept: "application/json"
+      }
+    })
+      .then((response) => response.json())
+      .then((json) => {
+        this.setState({ data: json });
+        console.log(this.state.data);
+        return json;
+      })
+      .catch((error) => console.error(error))
+      .finally(() => {
+        this.setState({ isLoading: false });
+      });
+  };
+  render() {
+    return <p>{this.state.data.activity}</p>;
+  }
+}
+export default About;
